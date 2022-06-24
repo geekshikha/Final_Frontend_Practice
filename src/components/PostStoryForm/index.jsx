@@ -1,12 +1,17 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { postMyStoryThunk } from "../../store/user/actions";
 
 const PostStoryButton = () => {
   const [name, setName] = useState();
   const [content, setContent] = useState();
   const [image, setImage] = useState();
 
+  const dispatch = useDispatch();
+
   const submitPostForm = (e) => {
     e.preventDefault();
+    dispatch(postMyStoryThunk(name, content, image));
   };
 
   return (

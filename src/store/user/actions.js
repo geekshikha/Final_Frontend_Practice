@@ -3,7 +3,14 @@ import axios from "axios";
 import { selectToken } from "./selectors";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/actions";
-import { loginSuccess, logOut, tokenStillValid, spaceUpdate } from "./slice";
+import {
+  loginSuccess,
+  logOut,
+  tokenStillValid,
+  spaceUpdate,
+  storyDelete,
+  postStory,
+} from "./slice";
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -132,10 +139,10 @@ export const updateMySpaceThunk = (
   color
 ) => {
   return async (dispatch, getState) => {
+    dispatch(appLoading());
     try {
       const { token } = getState().user;
       const { space } = getState().user.profile; //! this is imp (not use user.profile.space)
-      dispatch(appLoading());
 
       console.log("spaceId:", space.id);
 
@@ -160,8 +167,81 @@ export const updateMySpaceThunk = (
         showMessageWithTimeout("success", false, "update successfull", 3000)
       );
       dispatch(spaceUpdate(response.data.spaceToUpdate));
+      dispatch(appDoneLoading());
     } catch (error) {
       console.log(error.message);
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const deleteMyStoryThunk = (storyId) => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    try {
+      const { token } = getState().user;
+      const { space } = getState().user.profile; //! this is imp (not use user.profile.space)
+
+      const spaceId = space.id;
+
+      const response = await axios.delete(
+        `${apiUrl}/space/${spaceId}/stories/${storyId}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      //* console.log("storyDeleted", response);
+      console.log("update:", response.data);
+      dispatch(
+        showMessageWithTimeout("success", false, "update successfull", 3000)
+      );
+      // dispatch(storyDelete(storyId)); //! 2 ways to do this -- 1 to use storyId from backend which we are sending as a response
+      dispatch(storyDelete(response.data.storyId)); //! and 2nd way to use the storyId comming in response data
+      dispatch(appDoneLoading());
+    } catch (error) {
+      console.log(error.message);
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const postMyStoryThunk = (name, content, imageUrl) => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    try {
+      const { token } = getState().user;
+      const { space } = getState().user.profile; //! this is imp (not use user.profile.space)
+
+      // console.log("spaceId:", space.id);
+
+      const response = await axios.post(
+        `${apiUrl}/space/${space.id}/stories`,
+        {
+          name,
+          content,
+          imageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("update:", response);
+      // console.log("update:", response.data.spaceToUpdate);
+      dispatch(
+        showMessageWithTimeout("success", false, "update successfull", 3000)
+      );
+      dispatch(postStory(response.data.newStory));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      console.log(error.message);
+      dispatch(appDoneLoading());
     }
   };
 };

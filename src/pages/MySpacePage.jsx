@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../store/user/selectors";
 import Loading from "../components/Loading";
 import EditFormButton from "../components/EditForm";
 import PostStoryButton from "../components/PostStoryForm";
+import { deleteMyStoryThunk } from "../store/user/actions";
 
 const MySpacePage = () => {
   const mySpaceData = useSelector(selectUser);
+  // const myStoryData = useSelector(selectUserStory)
   const [editMode, setEditMode] = useState(false);
   const [postStory, setPostStory] = useState(false);
 
-  // console.log("mySpaceData:", mySpaceData);
+  console.log("mySpaceData:", mySpaceData);
+  const dispatch = useDispatch();
+
+  const deleteStoryHandle = (storyId) => {
+    console.log("is story deleted?", storyId);
+
+    dispatch(deleteMyStoryThunk(storyId));
+  };
 
   return (
     <div>
@@ -58,6 +67,7 @@ const MySpacePage = () => {
                         borderRadius: 10,
                         color: "white",
                       }}
+                      onClick={() => deleteStoryHandle(story.id)}
                     >
                       Delete
                     </button>

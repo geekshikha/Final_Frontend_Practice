@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserSpace } from "../../store/user/selectors";
 import { updateMySpaceThunk } from "../../store/user/actions";
+import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 
 const EditFormButton = () => {
@@ -19,11 +20,14 @@ const EditFormButton = () => {
   );
   const [textColor, setTextColor] = useState(startingState.color);
 
+  const navigate = useNavigate();
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     dispatch(
       updateMySpaceThunk(title, description, backgroundColor, textColor) //! don't use "useEffect" to dispatch thunks---- need to be action taken by user
     );
+    navigate("/myspace");
   };
 
   if (!startingState) {
