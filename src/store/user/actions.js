@@ -197,7 +197,7 @@ export const deleteMyStoryThunk = (storyId) => {
       //* console.log("storyDeleted", response);
       console.log("update:", response.data);
       dispatch(
-        showMessageWithTimeout("success", false, "update successfull", 3000)
+        showMessageWithTimeout("success", false, "Deleted Story!", 3000)
       );
       // dispatch(storyDelete(storyId)); //! 2 ways to do this -- 1 to use storyId from backend which we are sending as a response
       dispatch(storyDelete(response.data.storyId)); //! and 2nd way to use the storyId comming in response data
@@ -235,7 +235,7 @@ export const postMyStoryThunk = (name, content, imageUrl) => {
       console.log("update:", response);
       // console.log("update:", response.data.spaceToUpdate);
       dispatch(
-        showMessageWithTimeout("success", false, "update successfull", 3000)
+        showMessageWithTimeout("success", false, "New Story Was Created!", 3000)
       );
       dispatch(postStory(response.data.newStory));
       dispatch(appDoneLoading());

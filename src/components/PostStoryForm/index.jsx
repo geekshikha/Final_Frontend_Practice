@@ -3,15 +3,18 @@ import { useDispatch } from "react-redux";
 import { postMyStoryThunk } from "../../store/user/actions";
 
 const PostStoryButton = () => {
-  const [name, setName] = useState();
-  const [content, setContent] = useState();
-  const [image, setImage] = useState();
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState("");
 
   const dispatch = useDispatch();
 
   const submitPostForm = (e) => {
     e.preventDefault();
     dispatch(postMyStoryThunk(name, content, image));
+    setName("");
+    setContent("");
+    setImage("");
   };
 
   return (
@@ -46,7 +49,7 @@ const PostStoryButton = () => {
           value={image}
           onChange={(e) => setImage(e.target.value)}
         />
-        {image ? <image src={image} alt="preview" thumbnail /> : null}
+        {image ? <img src={image} alt="preview" thumbnail /> : null}
         <button
           type="submit"
           style={{ backgroundColor: "lightgreen", margin: 20 }}
