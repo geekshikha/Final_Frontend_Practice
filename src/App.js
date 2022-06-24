@@ -14,6 +14,7 @@ import { getUserWithStoredToken } from "./store/user/actions";
 // import HeroBanner from "./components/HeroBanner";
 import HomePage from "./pages/HomePage";
 import DetailPage from "./pages/DetailPage";
+import MySpacePage from "./pages/MySpacePage";
 
 // const Home = () => (
 //   <HeroBanner>
@@ -44,6 +45,7 @@ function App() {
         <Route path="/space/:id" element={<DetailPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/myspace" element={<MySpacePage />} />
       </Routes>
     </div>
   );

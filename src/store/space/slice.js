@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   spaces: [],
-  spaceDetails: {},
+  spaceDetails: null,
 };
 //! qus - when use "User model - backend- router/endpoints"
 //! Link button not working

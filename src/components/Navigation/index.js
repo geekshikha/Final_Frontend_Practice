@@ -22,7 +22,11 @@ export default function Navigation() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav style={{ width: "100%" }} fill>
           <NavbarItem path="/" linkText="Spaces" />
-          <NavbarItem path="/other" linkText="Other" />
+          {/*
+            //!  change by me to conditional rendering of path 
+            */}
+          {token ? <NavbarItem path="/myspace" linkText="MySpace" /> : null}{" "}
+          {/*   Changes by me */}
           {loginLogoutControls}
         </Nav>
       </Navbar.Collapse>
